@@ -1,34 +1,26 @@
 ---
-name: AWS S3 Image Upload
-slug: aws-s3-image-upload
-description: Learn to use AWS S3 to upload images to your bucket.
+name: AWS S3 Image Upload maxencehammen
+slug: aws-s3-image-upload-maxencehammen
+description: Learn to use AWS S3 to upload images to your bucket, Maxence style.
 framework: Next.js
 deployUrl: https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/aws-s3-image-upload&project-name=aws-s3-image-upload&repository-name=aws-s3-image-upload&env=AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,AWS_BUCKET_NAME
 ---
 
-# Next.js + AWS S3 Upload
+# Next.js + AWS S3 Upload | Maxence Hammen
 
-This is an example of a Next.js application allowing you to upload photos to an S3 bucket.
+Modification of the Next.js tutorial to upload images to an S3 bucket.
+
+For original tutorial, see [Next.js + AWS S3 Upload](https://vercel.com/templates/next.js/aws-s3-image-upload-nextjs).
 
 ## How to Use
 
-**Option 1: Use an existing S3 bucket.**
-
-Retrieve your existing access key, secret key, S3 bucket region and name. Provide those values after clicking "Deploy" to automatically set the environment variables.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/examples/tree/main/solutions/aws-s3-image-upload&project-name=aws-s3-image-upload&repository-name=aws-s3-image-upload&env=AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION,BUCKET_NAME)
-
-**Option 2: Create an S3 bucket.**
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [pnpm](https://pnpm.io/installation) to bootstrap the example:
+Clone this repository and run the following commands:
 
 ```bash
-pnpm create next-app --example https://github.com/vercel/examples/tree/main/solutions/aws-s3-image-upload
+pnpm install
 ```
 
-1. Create a new [S3 Bucket](https://console.aws.amazon.com/s3/).
-   1. In Object Ownership, select "ACLs enabled" and "Bucket owner prefered"
-   2. In Block Public Access settings for this bucket, uncheck "Block all public access".
+1. Create a new [S3 Bucket](https://console.aws.amazon.com/s3/) and keep the default settings.
 1. Create a new [IAM User](https://aws.amazon.com/iam/).
    1. Select "Attach policies directly".
    2. Add `s3:DeleteObject`, `s3:GetObject`, `s3:ListBucket`, `s3:PutObject`, `s3:PutObjectAcl`
@@ -64,8 +56,6 @@ pnpm create next-app --example https://github.com/vercel/examples/tree/main/solu
 1. Run `pnpm dev` or `npm run dev` to start the Next.js app at http://localhost:3000.
 1. Choose a `.png` or `.jpg` file.
 1. You should see your file successfully uploaded to S3.
-
-This example uses [`createPresignedPost`](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#createPresignedPost-property) instead of [`getSignedUrlPromise`](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getSignedUrlPromise-property) to allow setting max/min file sizes with `content-length-range`.
 
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=edge-middleware-eap) ([Documentation](https://nextjs.org/docs/deployment)).
 
