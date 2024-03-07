@@ -8,12 +8,16 @@ export type State = {
 
 export async function uploadFile(prevState: State, formData: FormData) {
   const file = formData.get('file') as File;
+  const userid = formData.get('userid') as string;
+  const siteid = formData.get('siteid') as string;
 
   if (!file) {
     return { message: 'Please select a file to upload.' };
   }
 
-  const { url, fields } = await preSignUploadFile(file.name, file.type);
+  const folder = `sites/${siteid}/users/${userid}`;
+
+  const { url, fields } = await preSignUploadFile(file.name, folder, file.type);
   const formDataUpload = new FormData();
   Object.entries(fields).forEach(([key, value]) => {
     formDataUpload.append(key, value as string);
