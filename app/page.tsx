@@ -29,6 +29,19 @@ export default function Page() {
         <div id="message" aria-live="polite" aria-atomic="true">
           {state?.message && <p>{state.message}</p>}
         </div>
+        <div id="link" aria-live="polite" aria-atomic="true">
+          {
+            state?.url && (
+              <a href={state
+                .url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open the uploaded file
+              </a>
+            )
+          }
+        </div>
         <SubmitButton />
       </form>
     </main>

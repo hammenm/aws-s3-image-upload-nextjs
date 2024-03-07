@@ -1,9 +1,11 @@
 'use server';
+import { getCloudFrontSignedUrl } from "@/app/lib/cloudfront";
 import { preSignUploadFile } from '@/app/lib/s3';
 
 // This is temporary until @types/react-dom is updated
 export type State = {
   message?: string | null;
+  url?: string;
 };
 
 export async function uploadFile(prevState: State, formData: FormData) {
@@ -17,7 +19,7 @@ export async function uploadFile(prevState: State, formData: FormData) {
 
   const folder = `sites/${siteid}/users/${userid}`;
 
-  const { url, fields } = await preSignUploadFile(file.name, folder, file.type);
+  const { key, url, fields } = await preSignUploadFile(file.name, folder, file.type);
   const formDataUpload = new FormData();
   Object.entries(fields).forEach(([key, value]) => {
     formDataUpload.append(key, value as string);
@@ -30,7 +32,10 @@ export async function uploadFile(prevState: State, formData: FormData) {
   });
 
   if (uploadResponse.ok) {
-    return { message: 'Upload successful!' };
+    return {
+      message: 'Upload successful!',
+      url: await getCloudFrontSignedUrl(key, 10 * 60 * 1000)
+    };
   } else {
     console.error('Response body:', await uploadResponse.text());
     return { message: 'Upload failed.' };
