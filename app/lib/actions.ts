@@ -12,6 +12,8 @@ export async function uploadFile(prevState: State, formData: FormData) {
   const file = formData.get('file') as File;
   const userid = formData.get('userid') as string;
   const siteid = formData.get('siteid') as string;
+  const expiration = formData.get('expiration') as string;
+  const expiryMs = parseInt(expiration, 10) * 60 * 1000;
 
   if (!file) {
     return { message: 'Please select a file to upload.' };
@@ -19,7 +21,7 @@ export async function uploadFile(prevState: State, formData: FormData) {
 
   const folder = `sites/${siteid}/users/${userid}`;
 
-  const { key, url, fields } = await preSignUploadFile(file.name, folder, file.type);
+  const { key, url, fields } = await preSignUploadFile(folder, file.type);
   const formDataUpload = new FormData();
   Object.entries(fields).forEach(([key, value]) => {
     formDataUpload.append(key, value as string);
@@ -34,7 +36,7 @@ export async function uploadFile(prevState: State, formData: FormData) {
   if (uploadResponse.ok) {
     return {
       message: 'Upload successful!',
-      url: await getCloudFrontSignedUrl(key, 10 * 60 * 1000)
+      url: await getCloudFrontSignedUrl(key, expiryMs),
     };
   } else {
     console.error('Response body:', await uploadResponse.text());

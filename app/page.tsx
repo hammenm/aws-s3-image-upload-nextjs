@@ -2,6 +2,7 @@
 
 import { useFormState } from 'react-dom';
 import { uploadFile } from '@/app/lib/actions';
+import { FormMessage } from "@/app/components/form-message";
 import { SubmitButton } from "@/app/components/submit-button";
 
 export default function Page() {
@@ -20,28 +21,24 @@ export default function Page() {
           <option value="siteid1">siteid1</option>
           <option value="siteid2">siteid2</option>
         </select>
+        <label htmlFor="expiration">Expiration (minutes)</label>
+        <input
+          id="expiration"
+          name="expiration"
+          type="number"
+          min="1"
+          max="120"
+          step="1"
+          placeholder="10"
+          defaultValue={10}
+        />
         <input
           id="file"
           name="file"
           type="file"
           accept="image/png, image/jpeg"
         />
-        <div id="message" aria-live="polite" aria-atomic="true">
-          {state?.message && <p>{state.message}</p>}
-        </div>
-        <div id="link" aria-live="polite" aria-atomic="true">
-          {
-            state?.url && (
-              <a href={state
-                .url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open the uploaded file
-              </a>
-            )
-          }
-        </div>
+        <FormMessage state={state} />
         <SubmitButton />
       </form>
     </main>
