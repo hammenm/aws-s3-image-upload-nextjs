@@ -1,5 +1,5 @@
 import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
-import { S3Client } from '@aws-sdk/client-s3'
+import { DeleteObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { v4 as uuidv4 } from 'uuid'
 
 export async function preSignUploadFile(folder, contentType) {
@@ -20,4 +20,12 @@ export async function preSignUploadFile(folder, contentType) {
   })
 
   return { key, url, fields }
+}
+
+export async function deleteFileS3(key) {
+  const client = new S3Client({ region: process.env.AWS_REGION });
+  await client.send(new DeleteObjectCommand({
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: key,
+  }))
 }

@@ -1,13 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
-import { uploadFile } from '@/app/lib/actions';
+import { uploadFile, deleteFile } from '@/app/lib/actions';
 import { FormMessage } from "@/app/components/form-message";
 import { SubmitButton } from "@/app/components/submit-button";
 
 export default function Page() {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(uploadFile, initialState);
+  const [uploads, setUploads] = useState([]);
+
+  useEffect(() => {
+    if (state.key && state.url) {
+      setUploads((prev) => [...prev, {key: state.key, url: state.url}]);
+    }
+  }, [state.key, state.url]);
 
   return (
     <main>
@@ -41,6 +49,20 @@ export default function Page() {
         <FormMessage state={state} />
         <SubmitButton />
       </form>
+      <h2>Uploads</h2>
+      <ul>
+        {uploads.map((upload) => (
+          <li key={upload.key}>
+            <a href={upload.url}>{upload.key}</a>
+            <button onClick={() => {
+              deleteFile(upload.key).then((result) => {
+                setUploads((prev) => prev.filter((u) => u.key !== upload.key));
+              }
+            )}
+            }>Delete</button>
+          </li>
+        ))}
+      </ul>
     </main>
   )
 }

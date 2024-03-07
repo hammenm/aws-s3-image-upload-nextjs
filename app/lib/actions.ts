@@ -1,10 +1,11 @@
 'use server';
 import { getCloudFrontSignedUrl } from "@/app/lib/cloudfront";
-import { preSignUploadFile } from '@/app/lib/s3';
+import { deleteFileS3, preSignUploadFile } from '@/app/lib/s3';
 
 // This is temporary until @types/react-dom is updated
 export type State = {
   message?: string | null;
+  key?: string;
   url?: string;
 };
 
@@ -36,10 +37,21 @@ export async function uploadFile(prevState: State, formData: FormData) {
   if (uploadResponse.ok) {
     return {
       message: 'Upload successful!',
+      key,
       url: await getCloudFrontSignedUrl(key, expiryMs),
     };
   } else {
     console.error('Response body:', await uploadResponse.text());
     return { message: 'Upload failed.' };
+  }
+}
+
+export async function deleteFile(key: string) {
+  try {
+    await deleteFileS3(key);
+    return { message: 'File deleted.' };
+  } catch (error) {
+    console.error('Error deleting file:', error);
+    return { message: 'Error deleting file.' };
   }
 }
