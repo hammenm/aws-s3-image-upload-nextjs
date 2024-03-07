@@ -21,9 +21,10 @@ pnpm install
 ```
 
 1. Create a new [S3 Bucket](https://console.aws.amazon.com/s3/) and keep the default settings.
+1. Create a CloudFront distribution to serve your bucket (Good luck!).
 1. Create a new [IAM User](https://aws.amazon.com/iam/).
    1. Select "Attach policies directly".
-   2. Add `s3:DeleteObject`, `s3:GetObject`, `s3:ListBucket`, `s3:PutObject`, `s3:PutObjectAcl`
+   2. Add `s3:PutObject`, `s3:DeleteObject`
 1. Save the access key and secret key for the IAM User.
    1. Select the newly created user (IAM > Users > "your-user") and navigate to "Security Credentials".
    2. Under "Access Keys", create a key and save this information. We will use this in the next step.
@@ -100,4 +101,3 @@ The SDK will pick up the credentials from the environment automatically.
 - AWS SDK v3 - S3Client Initalization (see Usage): https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/index.html
 - AWS SDK - Generate a Presigned Post: https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_s3_presigned_post.html#generate-a-presigned-post
 - AWS S3 POST Policy - Condition Matching (only allow images): https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-HTTPPOSTConstructPolicy.html
-- AWS ACL Permissions: https://stackoverflow.com/a/70550540/19416953
