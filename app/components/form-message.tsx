@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
 import { useFormStatus } from 'react-dom'
-import { State } from '@/app/lib/actions';
+import { type State } from '@/app/lib/actions';
 
 export function FormMessage({ state }: { state: State }) {
   const { pending } = useFormStatus();

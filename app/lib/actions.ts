@@ -25,7 +25,7 @@ export async function uploadFile(prevState: State, formData: FormData) {
   const { key, url, fields } = await preSignUploadFile(folder, file.type);
   const formDataUpload = new FormData();
   Object.entries(fields).forEach(([key, value]) => {
-    formDataUpload.append(key, value as string);
+    formDataUpload.append(key, value);
   });
   formDataUpload.append('file', file);
 

@@ -6,10 +6,15 @@ import { uploadFile, deleteFile } from '@/app/lib/actions';
 import { FormMessage } from "@/app/components/form-message";
 import { SubmitButton } from "@/app/components/submit-button";
 
+type Upload = {
+  key: string;
+  url: string;
+};
+
 export default function Page() {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(uploadFile, initialState);
-  const [uploads, setUploads] = useState([]);
+  const [uploads, setUploads] = useState<Upload[]>([]);
 
   useEffect(() => {
     if (state.key && state.url) {
@@ -54,8 +59,8 @@ export default function Page() {
         {uploads.map((upload) => (
           <li key={upload.key}>
             <a href={upload.url}>{upload.key}</a>
-            <button onClick={() => {
-              deleteFile(upload.key).then((result) => {
+            <button onClick={async () => {
+              await deleteFile(upload.key).then(() => {
                 setUploads((prev) => prev.filter((u) => u.key !== upload.key));
               }
             )}
